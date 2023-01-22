@@ -1,0 +1,21 @@
+name: SaltCore
+version: '${project.version}'
+main: me.axecy.saltcore.Main
+api-version: 1.19
+authors: [ Axecy ]
+description: Most of the commands for SaltSMP
+commands:
+  spawn:
+    description: Teleport player to spawn.
+    aliases: [ hub, lobby ]
+    permission: saltcore.spawn
+  saltcore setspawn:
+    description: Set spawn location to player location.
+    permission: saltcore.setspawn
+  saltcore reload:
+    description: Reload configuration file.
+    permission: saltcore.reload
+  rtp:
+    description: Teleport the command sender to a random location
+    aliases: [ wild, randomtp, randomteleport, rteleport ]
+    permission: saltcore.rtp

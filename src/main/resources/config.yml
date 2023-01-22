@@ -1,0 +1,38 @@
+# ███████╗ █████╗ ██╗  ████████╗ ██████╗ ██████╗ ██████╗ ███████╗
+# ██╔════╝██╔══██╗██║  ╚══██╔══╝██╔════╝██╔═══██╗██╔══██╗██╔════╝
+# ███████╗███████║██║     ██║   ██║     ██║   ██║██████╔╝█████╗
+# ╚════██║██╔══██║██║     ██║   ██║     ██║   ██║██╔══██╗██╔══╝
+# ███████║██║  ██║███████╗██║   ╚██████╗╚██████╔╝██║  ██║███████╗
+# ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝    ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝
+
+# Made with ❤ by Axecy!
+# Used for the SaltSMP, features multiple necessary commands.
+
+# Spawn command (also has the following aliases: hub, lobby)
+spawn:
+  location:
+    # Name of the world where the spawn command will teleport the command sender to.
+    world: hardcorelobby
+    # X coordinate
+    x: 0
+    # Y coordinate
+    y: 64
+    # Z coordinate
+    z: 0
+
+# RTP / Wild command
+randomtp:
+  # Name of the world where the RTP command will teleport the command sender to.
+  world: hardcorelobby
+  # The teleport range
+  range:
+    # Minimum range for x, y, z
+    1:
+      x: -1000
+      y: 256
+      z: -1000
+    # Maximum range for x, y, z
+    2:
+      x: 1000
+      y: -64
+      z: 1000
