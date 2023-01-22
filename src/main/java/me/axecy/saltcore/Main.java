@@ -1,5 +1,6 @@
 package me.axecy.saltcore;
 
+import me.axecy.saltcore.Homes.HomeCommand;
 import me.axecy.saltcore.RandomTP.RTPCommand;
 import me.axecy.saltcore.Spawn.SetSpawnCommand;
 import me.axecy.saltcore.Spawn.SpawnCommand;
@@ -12,5 +13,8 @@ public class Main extends JavaPlugin {
         this.getCommand("saltcore setspawn").setExecutor(new SetSpawnCommand(this));
         this.getCommand("saltcore reload").setExecutor(new ReloadConfigCommand(this));
         this.getCommand("rtp").setExecutor(new RTPCommand(this));
+        this.getCommand("home").setExecutor(new HomeCommand(this));
+        this.getCommand("sethome").setExecutor(new HomeCommand(this));
+
     }
 }

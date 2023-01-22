@@ -36,5 +36,41 @@ randomtp:
       x: 1000
       y: -64
       z: 1000
-  # Command cooldown in minutes
+  # Command use cooldown in minutes
   cooldown: 1
+
+protecthub:
+  # Name of the hub world
+  world: Hub
+
+tpa:
+  # Name of the world where people can accept / cancel / tpa in / to
+  world: Hardcore
+  # The time you get to accept a player's TPA request
+  accept-time: 30
+  # Command use cooldown in seconds
+  cooldown: 30
+  # All messages that you can change (because I was lazy to use messages.yml)
+  messages:
+    # When a player accepts a TPA request
+    accepted:
+      # The player that sent the teleport request
+      sender:
+        - "&6<target> &ahas accepted your TPA request!"
+      # The player that accepted the teleport request
+      target:
+        - "&aYou have accepted &6<sender>''s &aTPA request!"
+    cancelled:
+      sender:
+        - "&cYou have cancelled your TPA request to &6<target>&c."
+      target:
+        - "&6<sender> &chas cancelled their TPA request."
+    request:
+      sender:
+        - "&aYou have sent a TPA request to &6Axecy&a."
+        - "&7They have &630 seconds &7to accept!"
+        - "&c❌ Cancel using &6/tpacancel <target>"
+      target:
+        - "&6<sender> &ahas sent you a TPA request!"
+        - "&7You have &630 seconds &7to accept the request."
+        - "&a✔ Accept using &6/tpaccept <sender>"

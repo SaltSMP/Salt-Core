@@ -11,11 +11,32 @@ commands:
     permission: saltcore.spawn
   saltcore setspawn:
     description: Set spawn location to player location.
+    aliases: [ sc setspawn, salt setspawn ]
     permission: saltcore.setspawn
   saltcore reload:
     description: Reload configuration file.
+    aliases: [ sc reload, salt reload ]
     permission: saltcore.reload
   rtp:
     description: Teleport the command sender to a random location
     aliases: [ wild, randomtp, randomteleport, rteleport ]
     permission: saltcore.rtp
+  sethome:
+    description: Sets the players location to their home.
+    aliases: [ sh, seth, homeset ]
+    permission: saltcore.sethome
+  home:
+    description: Teleports the player to the location set with /sethome
+    aliases: [ h, tphome, teleporthome, hometeleport ]
+    permission: saltcore.home
+  tpa:
+    description: Sends a TPA request to the player.
+    aliases: [ teleportask, tpask, teleporta, asktp, askteleport ]
+    permission: saltcore.tpa
+  tpacancel:
+    description: Cancels the latest TPA request sent by the command sender.
+    aliases: [ teleportaskcancel, tpaskcancel, teleportacancel, asktpcancel, askteleportcancel ]
+    permission: saltcore.tpacancel
+  tpaccept:
+    description: Accepts the latest TPA request received from the player specified in the first argument.
+    aliases: [ teleportaskaccept, tpaskaccept, teleportaaccept, asktpaccept, askteleportaccept ]
