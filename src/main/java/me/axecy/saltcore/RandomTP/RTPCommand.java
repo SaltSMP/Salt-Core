@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -16,19 +17,15 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
-public class RTPCommand extends JavaPlugin {
+public class RTPCommand implements CommandExecutor {
     private final HashMap<UUID, Long> cooldowns = new HashMap<>();
     private int cooldownTime;
 
     private final Main plugin;
     public RTPCommand(Main plugin) {
-        this.plugin = plugin;
-    }
 
-    @Override
-    public void onEnable() {
-        saveDefaultConfig();
-        cooldownTime = getConfig().getInt("randomtp.cooldown");
+        this.plugin = plugin;
+        cooldownTime = plugin.getConfig().getInt("randomtp.cooldown");
     }
 
     @Override
@@ -54,8 +51,8 @@ public class RTPCommand extends JavaPlugin {
             }
         }
         // If the player is not on cooldown, or the cooldown has expired
-        World world = Bukkit.getWorld(getConfig().getString("randomtp.world"));
-        ConfigurationSection range = getConfig().getConfigurationSection("randomtp.range");
+        World world = Bukkit.getWorld(plugin.getConfig().getString("randomtp.world"));
+        ConfigurationSection range = plugin.getConfig().getConfigurationSection("randomtp.range");
         int x = new Random().nextInt(range.getInt("2.x") - range.getInt("1.x")) + range.getInt("1.x");
         int z = new Random().nextInt(range.getInt("2.z") - range.getInt("1.z")) + range.getInt("1.z");
         int y = world.getHighestBlockYAt(x, z);
