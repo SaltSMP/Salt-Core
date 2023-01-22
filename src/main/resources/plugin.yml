@@ -9,13 +9,13 @@ commands:
     description: Teleport player to spawn.
     aliases: [ hub, lobby ]
     permission: saltcore.spawn
-  saltcore setspawn:
+  saltcore-setspawn:
     description: Set spawn location to player location.
-    aliases: [ sc setspawn, salt setspawn ]
+    aliases: [ sc-setspawn, salt-setspawn ]
     permission: saltcore.setspawn
-  saltcore reload:
+  saltcore-reload:
     description: Reload configuration file.
-    aliases: [ sc reload, salt reload ]
+    aliases: [ sc-reload, salt-reload ]
     permission: saltcore.reload
   rtp:
     description: Teleport the command sender to a random location
