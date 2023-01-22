@@ -36,3 +36,5 @@ randomtp:
       x: 1000
       y: -64
       z: 1000
+  # Command cooldown in minutes
+  cooldown: 1
