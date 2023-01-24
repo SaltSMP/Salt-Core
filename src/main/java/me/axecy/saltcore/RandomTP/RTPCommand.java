@@ -19,13 +19,9 @@ import java.util.UUID;
 
 public class RTPCommand implements CommandExecutor {
     private final HashMap<UUID, Long> cooldowns = new HashMap<>();
-    private int cooldownTime;
-
     private final Main plugin;
     public RTPCommand(Main plugin) {
-
         this.plugin = plugin;
-        cooldownTime = plugin.getConfig().getInt("randomtp.cooldown");
     }
 
     @Override
@@ -42,10 +38,12 @@ public class RTPCommand implements CommandExecutor {
         if (cooldowns.containsKey(playerUUID)) {
             long lastExecution = cooldowns.get(playerUUID);
             long currentTime = System.currentTimeMillis();
-            long timePassed = currentTime - lastExecution;
+            int timePassed = (int) (currentTime - lastExecution) / 1000;
 
-            if (timePassed < (long) cooldownTime * 60 * 1000) {
-                long timeLeft = ((long) cooldownTime * 60 * 1000 - timePassed) / 1000;
+            // Get cooldown in seconds
+            int cooldownTime = plugin.getConfig().getInt("randomtp.cooldown") * 60;
+            if (timePassed < cooldownTime) {
+                int timeLeft = cooldownTime - timePassed;
                 player.sendMessage(ChatColor.RED + "You are still on cooldown for " + timeLeft + " seconds.");
                 return true;
             }
@@ -53,15 +51,20 @@ public class RTPCommand implements CommandExecutor {
         // If the player is not on cooldown, or the cooldown has expired
         World world = Bukkit.getWorld(plugin.getConfig().getString("randomtp.world"));
         ConfigurationSection range = plugin.getConfig().getConfigurationSection("randomtp.range");
-        int x = new Random().nextInt(range.getInt("2.x") - range.getInt("1.x")) + range.getInt("1.x");
-        int z = new Random().nextInt(range.getInt("2.z") - range.getInt("1.z")) + range.getInt("1.z");
-        int y = world.getHighestBlockYAt(x, z);
-        if (!world.getBlockAt(x, y, z).isPassable()) {
-            player.teleport(new Location(world, x, y, z));
-            sender.sendMessage(ChatColor.GREEN + "You have been teleported to: " + ChatColor.GOLD +  x + ChatColor.GOLD + y + ChatColor.GOLD + z + ChatColor.GREEN + " in world" + ChatColor.GOLD + world);
-        } else {
-            player.sendMessage(ChatColor.RED + "The randomly generated location is not a solid block, please try again.");
+        int minX = range.getInt("1.x");
+        int maxX = range.getInt("2.x");
+        int minZ = range.getInt("1.z");
+        int maxZ = range.getInt("2.z");
+
+        int x=0, y=257, z=0;
+        while(world.getBlockAt(x, y, z).isPassable())
+        {
+            x = new Random().nextInt(maxX-minX) + minX;
+            z = new Random().nextInt(maxZ-minZ) + minZ;
+            y = world.getHighestBlockYAt(x, z);
         }
+        player.teleport(new Location(world, x, y+1, z));
+        sender.sendMessage(ChatColor.GREEN + "You have been teleported to: " + ChatColor.GOLD +  x + ", " + y + ", " + z + ChatColor.GREEN + " in world " + ChatColor.GOLD + world.getName());
 
         // Add the player to the cooldown list
         cooldowns.put(playerUUID, System.currentTimeMillis());
