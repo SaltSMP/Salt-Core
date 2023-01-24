@@ -10,8 +10,8 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         this.getCommand("spawn").setExecutor(new SpawnCommand(this));
-        this.getCommand("saltcore setspawn").setExecutor(new SetSpawnCommand(this));
-        this.getCommand("saltcore reload").setExecutor(new ReloadConfigCommand(this));
+        this.getCommand("saltcore-setspawn").setExecutor(new SetSpawnCommand(this));
+        this.getCommand("saltcore-reload").setExecutor(new ReloadConfigCommand(this));
         this.getCommand("rtp").setExecutor(new RTPCommand(this));
         this.getCommand("home").setExecutor(new HomeCommand(this));
         this.getCommand("sethome").setExecutor(new HomeCommand(this));
