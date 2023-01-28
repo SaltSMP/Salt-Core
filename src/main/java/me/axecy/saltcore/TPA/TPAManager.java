@@ -4,27 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import me.axecy.saltcore.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public class TPAManager extends JavaPlugin {
+public class TPAManager {
 
     private Map<UUID, UUID> tpaRequests;
     private Map<UUID, Long> cooldowns;
-    private FileConfiguration config;
 
-    public void onEnable() {
+    private final Main plugin;
+    public TPAManager(Main plugin) {
+        this.plugin = plugin;
         tpaRequests = new HashMap<>();
-        cooldowns = new HashMap<>();
-        config = getConfig();
-        saveDefaultConfig();
 
-        getCommand("tpa").setExecutor(new TPACommand(this));
-        getCommand("tpacancel").setExecutor(new TPACancelCommand(this));
-        getCommand("tpaccept").setExecutor(new TPAcceptCommand(this));
+        plugin.getCommand("tpa").setExecutor(new TPACommand(this));
+        plugin.getCommand("tpacancel").setExecutor(new TPACancelCommand(this));
+        plugin.getCommand("tpaccept").setExecutor(new TPAcceptCommand(this));
     }
 
     public boolean onCooldown(Player player) {
@@ -42,7 +39,7 @@ public class TPAManager extends JavaPlugin {
     }
 
     public void setCooldown(Player player) {
-        cooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (config.getInt("cooldown") * 1000L));
+        cooldowns.put(player.getUniqueId(), System.currentTimeMillis() + (plugin.getConfig().getInt("cooldown") * 1000L));
     }
 
     public Map<UUID, UUID> getTpaRequests() {
@@ -50,22 +47,22 @@ public class TPAManager extends JavaPlugin {
     }
 
     public String getWorld() {
-        return config.getString("world");
+        return plugin.getConfig().getString("world");
     }
 
     public int getAcceptTime() {
-        return config.getInt("accept-time");
+        return plugin.getConfig().getInt("accept-time");
     }
 
     public void sendTpaRequest(Player sender, Player target) {
         tpaRequests.put(target.getUniqueId(), sender.getUniqueId());
-        for (String s : config.getStringList("messages.request.sender")) {
+        for (String s : plugin.getConfig().getStringList("messages.request.sender")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<target>", target.getName())));
         }
-        for (String s : config.getStringList("messages.request.target")) {
+        for (String s : plugin.getConfig().getStringList("messages.request.target")) {
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<sender>", sender.getName())));
         }
-        Bukkit.getScheduler().runTaskLater(this, () -> {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
             if (tpaRequests.containsKey(target.getUniqueId())) {
                 tpaRequests.remove(target.getUniqueId());
                 sender.sendMessage("TPA request timed out.");
@@ -78,10 +75,10 @@ public class TPAManager extends JavaPlugin {
 
     public void cancelTpaRequest(Player sender, Player target) {
         tpaRequests.remove(target.getUniqueId());
-        for (String s : config.getStringList("messages.cancelled.sender")) {
+        for (String s : plugin.getConfig().getStringList("messages.cancelled.sender")) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<target>", target.getName())));
         }
-        for (String s : config.getStringList("messages.cancelled.target")) {
+        for (String s : plugin.getConfig().getStringList("messages.cancelled.target")) {
             target.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<sender>", sender.getName())));
         }
     }
@@ -90,10 +87,10 @@ public class TPAManager extends JavaPlugin {
     public void acceptTpaRequest(Player sender, Player target) {
         if (tpaRequests.containsKey(sender.getUniqueId()) && tpaRequests.get(sender.getUniqueId()).equals(target.getUniqueId())) {
             tpaRequests.remove(sender.getUniqueId());
-            for (String s : config.getStringList("messages.accepted.sender")) {
+            for (String s : plugin.getConfig().getStringList("messages.accepted.sender")) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<target>", target.getName())));
             }
-            for (String s : config.getStringList("messages.accepted.target")) {
+            for (String s : plugin.getConfig().getStringList("messages.accepted.target")) {
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&', s.replace("<sender>", sender.getName())));
             }
             target.teleport(sender);
