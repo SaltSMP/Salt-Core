@@ -1,5 +1,6 @@
 package me.axecy.saltcore.TPA;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +20,7 @@ public class TPACommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                Player target = plugin.getServer().getPlayer(args[0]);
+                Player target = Bukkit.getPlayer(args[0]);
                 if (target != null) {
                     if (target.getWorld().getName().equals(plugin.getWorld())) {
                         if (!plugin.onCooldown(player)) {
